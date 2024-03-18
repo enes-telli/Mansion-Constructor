@@ -1,0 +1,170 @@
+fileFormatVersion: 2
+guid: af5edabb4b16cf34c88394d727b9a910
+ModelImporter:
+  serializedVersion: 21300
+  internalIDToNameTable:
+  - first:
+      74: 7710001158886688736
+    second: Rig|Rig|Attack|Attack
+  - first:
+      74: -6381567845740718521
+    second: Rig|Rig|Bounce|Bounce
+  - first:
+      74: 6321331187020051000
+    second: Rig|Rig|Clicked|Clicked
+  - first:
+      74: -8196231630774868267
+    second: Rig|Rig|Death|Death
+  - first:
+      74: 6646386461832178618
+    second: Rig|Rig|Eat|Eat
+  - first:
+      74: -1854298015059541215
+    second: Rig|Rig|Fear|Fear
+  - first:
+      74: -173582948307519358
+    second: Rig|Rig|Fly|Fly
+  - first:
+      74: 3218679552716411551
+    second: Rig|Rig|Hit|Hit
+  - first:
+      74: -1906006011202273706
+    second: Rig|Rig|Idle_A|Idle_A
+  - first:
+      74: -719483700213937438
+    second: Rig|Rig|Idle_B|Idle_B
+  - first:
+      74: 8973255782690695612
+    second: Rig|Rig|Idle_C|Idle_C
+  - first:
+      74: -221652645679085704
+    second: Rig|Rig|Jump|Jump
+  - first:
+      74: 4143874125720228839
+    second: Rig|Rig|Roll|Roll
+  - first:
+      74: 2934114788485690814
+    second: Rig|Rig|Run|Run
+  - first:
+      74: 5045842377602822844
+    second: Rig|Rig|Sit|Sit
+  - first:
+      74: 3877508687355441100
+    second: Rig|Rig|Spin|Spin
+  - first:
+      74: 6097403918583845668
+    second: Rig|Rig|Swim|Swim
+  - first:
+      74: 3468257711131232733
+    second: Rig|Rig|Walk|Walk
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: M_Sheep
+    second: {fileID: 2100000, guid: d28f00283e5ef2f438fc1a830d340329, type: 2}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: T_Sheep
+    second: {fileID: 2800000, guid: 05af4d3dd6ae5334b8a86d06ad0058f9, type: 3}
+  materials:
+    materialImportMode: 2
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    removeConstantScaleCurves: 1
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 0
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 0.5
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    nodeNameCollisionStrategy: 1
+    fileIdsGeneration: 2
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    keepQuads: 0
+    weldVertices: 1
+    bakeAxisConversion: 0
+    preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    optimizeBones: 1
+    meshOptimizationFlags: -1
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVMarginMethod: 1
+    secondaryUVMinLightmapResolution: 40
+    secondaryUVMinObjectScale: 1
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  referencedClips: []
+  importAnimation: 1
+  humanDescription:
+    serializedVersion: 3
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    globalScale: 0.5
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
+  animationType: 2
+  humanoidOversampling: 1
+  avatarSetup: 0
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 1
+  remapMaterialsIfMaterialImportModeIsNone: 0
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
