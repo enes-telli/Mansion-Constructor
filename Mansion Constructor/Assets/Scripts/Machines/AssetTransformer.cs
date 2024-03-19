@@ -1,24 +1,15 @@
 using DG.Tweening;
-using Helpers;
-using Items;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Machines
 {
     public class AssetTransformer : MonoBehaviour
     {
-        [SerializeField] private TriggerArea _inputArea;
-        [SerializeField] private TriggerArea _outputArea;
+        [SerializeField] private StackArea _inputArea;
+        [SerializeField] private StackArea _outputArea;
 
-        [SerializeField] private Transform _spawnedAssetStackTransform;
-        [SerializeField] private Transform _transformedAssetStackTransform;
-
-        private Stack<SpawnedAsset> _spawnedAssets = new Stack<SpawnedAsset>();
-        private Stack<TransformedAsset> _transformedAssets = new Stack<TransformedAsset>();
-
-        private float _takeDelayTime = 0.05f;
+        private readonly float _takeDelayTime = 0.05f;
 
         private bool _productionStarted = false;
 
@@ -82,11 +73,11 @@ namespace Machines
             {
                 var asset = playerStackedAssets[^1];
                 var assetTransform = asset.transform;
-                assetTransform.SetParent(_spawnedAssetStackTransform);
-                assetTransform.DOLocalMove(_spawnedAssets.Count * 0.135f * Vector3.up, 0.3f);
+                assetTransform.SetParent(_inputArea.StackTransform);
+                assetTransform.DOLocalMove(_inputArea.GetAssetPosition(), 0.3f);
                 assetTransform.localRotation = Quaternion.identity;
                 playerStackedAssets.Remove(asset);
-                _spawnedAssets.Push(asset);
+                _inputArea.Assets.Add(asset);
 
                 yield return new WaitForSeconds(_takeDelayTime);
             }
