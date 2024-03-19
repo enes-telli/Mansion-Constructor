@@ -83,8 +83,7 @@ namespace Machines
                 var asset = playerStackedAssets[^1];
                 var assetTransform = asset.transform;
                 assetTransform.SetParent(_spawnedAssetStackTransform);
-                assetTransform.localPosition = _spawnedAssets.Count * 0.135f * Vector3.up;
-                assetTransform.DOScale(assetTransform.localScale/*Vector3.one*/, 0.3f).From(Vector3.zero);
+                assetTransform.DOLocalMove(_spawnedAssets.Count * 0.135f * Vector3.up, 0.3f);
                 assetTransform.localRotation = Quaternion.identity;
                 playerStackedAssets.Remove(asset);
                 _spawnedAssets.Push(asset);

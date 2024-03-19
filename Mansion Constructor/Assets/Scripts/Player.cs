@@ -16,9 +16,13 @@ public class Player : MonoBehaviour
 
     public bool IsStackFull() => stackedAssets.Count >= _stackCapacity;
 
+    private Vector3 _gravity;
+
     // void Initialize()
     void Start()
     {
+        _gravity = Physics.gravity;
+
         InputManager.Instance.OnInput += Move;
     }
 
@@ -29,7 +33,7 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        
+        Gravity();
     }
 
     private void Move(Vector2 inputDirection)
@@ -40,6 +44,13 @@ public class Player : MonoBehaviour
         transform.LookAt(transform.position + worldDirection);
 
         _characterController.Move(motionVector);
+    }
+
+    private void Gravity()
+    {
+        if (_characterController.isGrounded) return;
+
+        _characterController.Move(_gravity * Time.deltaTime);
     }
 
     public void TakeSpawnedAsset(SpawnedAsset spawnedAsset)
