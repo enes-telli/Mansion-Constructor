@@ -4,8 +4,8 @@ using UnityEngine;
 
 namespace Items
 {
-    public class TransformedAsset : MonoBehaviour
+    public class AssetBase : MonoBehaviour
     {
-
+        public AssetData Data;
     }
 }

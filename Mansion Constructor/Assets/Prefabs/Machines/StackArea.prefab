@@ -43,7 +43,6 @@ GameObject:
   - component: {fileID: 3739984894883681770}
   - component: {fileID: 1270322977899029867}
   - component: {fileID: 2062538022020774939}
-  - component: {fileID: 2535705184441286686}
   - component: {fileID: 6168138654860191713}
   m_Layer: 0
   m_Name: StackArea
@@ -150,18 +149,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &2535705184441286686
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5305147490623921649}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a9c67fe4754ae654e8170e7ce8adc9d1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &6168138654860191713
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -174,12 +161,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d7f0018cd809004eab4c238faab325e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _capacity: 120
+  _capacity: 60
+  AssetData: {fileID: 0}
   StackTransform: {fileID: 5305696325518220104}
   _row: 6
-  _rowSpace: 0.15
+  _rowSpacing: 0.15
   _column: 2
-  _columnSpace: 0.3
+  _columnSpacing: 0.3
   _heightGap: 0.135
   Assets: []
 --- !u!1 &8026951391905307999
@@ -199,7 +187,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &4857412391808039874
 RectTransform:
   m_ObjectHideFlags: 0

@@ -800,8 +800,9 @@ MonoBehaviour:
   _characterAnimator: {fileID: 1320720016553669733}
   _speed: 5
   _stackCapacity: 20
+  _assetType: 0
   stackTransform: {fileID: 775257687}
-  stackedAssets: []
+  StackedAssets: []
 --- !u!1 &5985163850785184725
 GameObject:
   m_ObjectHideFlags: 0

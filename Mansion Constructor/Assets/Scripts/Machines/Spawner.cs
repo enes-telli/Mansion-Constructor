@@ -8,15 +8,12 @@ namespace Machines
 {
     public class Spawner : MonoBehaviour
     {
-        //[SerializeField] private TriggerArea _outputArea;
         [SerializeField] private StackArea _outputArea;
         [SerializeField] private Transform _spawnPoint;
         [SerializeField] private GameObject _maxText;
 
         private readonly float _produceDelayTime = 0.2f;
         private readonly float _takeDelayTime = 0.05f;
-
-        private bool _productionStarted = false;
 
         private Coroutine _assetGiving;
         private Coroutine _production;
@@ -50,29 +47,30 @@ namespace Machines
         {
             if (other.TryGetComponent(out Player player))
             {
-                StopCoroutine(_assetGiving);
+                if (_assetGiving != null)
+                    StopCoroutine(_assetGiving);
             }
         }
 
         private IEnumerator GiveAssets(Player player)
         {
-            while (!player.IsStackFull())
+            if (!player.IsStackTypeEquals(_outputArea.AssetData))
             {
-                _outputArea.GiveAssets(player);
-                yield return new WaitForSeconds(_takeDelayTime);
+                yield break;
             }
 
-            yield return null;
-
-            if (!_productionStarted)
+            while (true)
             {
-                _production = StartCoroutine(ProduceAssets());
+                yield return new WaitUntil(() => !player.IsStackFull() && !_outputArea.IsEmpty());
+
+                _outputArea.GiveAssets(player);
+
+                yield return new WaitForSeconds(_takeDelayTime);
             }
         }
 
         private IEnumerator ProduceAssets()
         {
-            _productionStarted = true;
             while (true)
             {
                 if (_outputArea.IsFull())
@@ -81,13 +79,13 @@ namespace Machines
                     continue;
                 }
 
-                var spawnedAsset = PoolManager.Instance.GetPooledObject<SpawnedAsset>("SpawnedAsset");
+                var spawnedAsset = PoolManager.Instance.GetPooledObject<AssetBase>(_outputArea.AssetData.name);
                 var spawnedAssetTransform = spawnedAsset.transform;
                 spawnedAssetTransform.position = _spawnPoint.position;
                 spawnedAssetTransform.SetParent(_outputArea.StackTransform);
                 float randomJumpPower = Random.Range(1.2f, 1.3f);
-                spawnedAssetTransform.DOLocalJump(_outputArea.GetAssetPosition(), randomJumpPower, 1, 0.4f);
-                spawnedAssetTransform.DOScale(spawnedAssetTransform.localScale/*Vector3.one*/, 0.3f).From(Vector3.zero);
+                spawnedAssetTransform.DOLocalJump(_outputArea.GetFormatedAssetPosition(), randomJumpPower, 1, 0.4f);
+                spawnedAssetTransform.DOScale(spawnedAssetTransform.localScale, 0.3f).From(Vector3.zero);
                 spawnedAssetTransform.localRotation = Quaternion.identity;
                 _outputArea.Assets.Add(spawnedAsset);
                 _maxText.SetActive(_outputArea.IsFull());
