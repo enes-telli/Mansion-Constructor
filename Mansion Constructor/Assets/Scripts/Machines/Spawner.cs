@@ -8,7 +8,7 @@ namespace Machines
 {
     public class Spawner : MonoBehaviour
     {
-        [SerializeField] private StackArea _outputArea;
+        public StackArea OutputArea;
         [SerializeField] private Transform _spawnPoint;
         [SerializeField] private GameObject _maxText;
 
@@ -25,45 +25,45 @@ namespace Machines
 
         private void OnEnable()
         {
-            _outputArea.onTriggerEnter += OutputTriggerEnter;
-            _outputArea.onTriggerExit += OutputTriggerExit;
+            OutputArea.onTriggerEnter += OutputTriggerEnter;
+            OutputArea.onTriggerExit += OutputTriggerExit;
         }
 
         private void OnDisable()
         {
-            _outputArea.onTriggerEnter -= OutputTriggerEnter;
-            _outputArea.onTriggerExit -= OutputTriggerExit;
+            OutputArea.onTriggerEnter -= OutputTriggerEnter;
+            OutputArea.onTriggerExit -= OutputTriggerExit;
         }
 
         private void OutputTriggerEnter(Collider other)
         {
-            if (other.TryGetComponent(out Player player))
+            if (other.TryGetComponent(out CharacterStack characterStack))
             {
-                _assetGiving = StartCoroutine(GiveAssets(player));
+                _assetGiving = StartCoroutine(GiveAssets(characterStack));
             }
         }
 
         private void OutputTriggerExit(Collider other)
         {
-            if (other.TryGetComponent(out Player player))
+            if (other.TryGetComponent(out CharacterStack _))
             {
                 if (_assetGiving != null)
                     StopCoroutine(_assetGiving);
             }
         }
 
-        private IEnumerator GiveAssets(Player player)
+        public IEnumerator GiveAssets(CharacterStack characterStack)
         {
-            if (!player.IsStackTypeEquals(_outputArea.AssetData))
+            if (!characterStack.IsStackTypeEquals(OutputArea.AssetData))
             {
                 yield break;
             }
 
             while (true)
             {
-                yield return new WaitUntil(() => !player.IsStackFull() && !_outputArea.IsEmpty());
+                yield return new WaitUntil(() => !characterStack.IsFull() && !OutputArea.IsEmpty());
 
-                _outputArea.GiveAssets(player);
+                OutputArea.GiveAssets(characterStack);
 
                 yield return new WaitForSeconds(_takeDelayTime);
             }
@@ -73,22 +73,22 @@ namespace Machines
         {
             while (true)
             {
-                if (_outputArea.IsFull())
+                if (OutputArea.IsFull())
                 {
                     yield return null;
                     continue;
                 }
 
-                var spawnedAsset = PoolManager.Instance.GetPooledObject<AssetBase>(_outputArea.AssetData.name);
+                var spawnedAsset = PoolManager.Instance.GetPooledObject<AssetBase>(OutputArea.AssetData.name);
                 var spawnedAssetTransform = spawnedAsset.transform;
                 spawnedAssetTransform.position = _spawnPoint.position;
-                spawnedAssetTransform.SetParent(_outputArea.StackTransform);
+                spawnedAssetTransform.SetParent(OutputArea.StackTransform);
                 float randomJumpPower = Random.Range(1.2f, 1.3f);
-                spawnedAssetTransform.DOLocalJump(_outputArea.GetFormatedAssetPosition(), randomJumpPower, 1, 0.4f);
+                spawnedAssetTransform.DOLocalJump(OutputArea.GetFormatedAssetPosition(), randomJumpPower, 1, 0.4f);
                 spawnedAssetTransform.DOScale(spawnedAssetTransform.localScale, 0.3f).From(Vector3.zero);
                 spawnedAssetTransform.localRotation = Quaternion.identity;
-                _outputArea.Assets.Add(spawnedAsset);
-                _maxText.SetActive(_outputArea.IsFull());
+                OutputArea.Assets.Add(spawnedAsset);
+                _maxText.SetActive(OutputArea.IsFull());
                 spawnedAsset.gameObject.SetActive(true);
                 yield return new WaitForSeconds(_produceDelayTime);
             }

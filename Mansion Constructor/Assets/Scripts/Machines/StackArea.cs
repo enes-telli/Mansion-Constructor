@@ -37,16 +37,16 @@ public class StackArea : TriggerArea
         return new Vector3(offsetX, offsetY, offsetZ);
     }
 
-    public void TakeAssets(Player player)
+    public void TakeAssets(CharacterStack characterStack)
     {
 
     }
 
-    public void GiveAssets(Player player)
+    public void GiveAssets(CharacterStack characterStack)
     {
         AssetBase spawnedAsset = Assets[^1];
         Assets.Remove(spawnedAsset);
-        player.TakeAsset(spawnedAsset);
+        characterStack.TakeAsset(spawnedAsset);
     }
 
     public void ProduceAssets()

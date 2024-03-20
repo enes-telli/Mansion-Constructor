@@ -721,6 +721,7 @@ GameObject:
   - component: {fileID: 1320720016553669733}
   - component: {fileID: 88974109}
   - component: {fileID: 88974108}
+  - component: {fileID: 2138772275}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -798,11 +799,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _characterController: {fileID: 88974109}
   _characterAnimator: {fileID: 1320720016553669733}
+  Stack: {fileID: 2138772275}
   _speed: 5
-  _stackCapacity: 20
+--- !u!114 &2138772275
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5764571941740508325}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 287f7fbe0a91ddd458510802ae24e1de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _stackTransform: {fileID: 775257687}
+  _capacity: 20
   _assetType: 0
-  stackTransform: {fileID: 775257687}
-  StackedAssets: []
+  Assets: []
 --- !u!1 &5985163850785184725
 GameObject:
   m_ObjectHideFlags: 0

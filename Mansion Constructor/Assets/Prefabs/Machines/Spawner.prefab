@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5fb833298fd13f4aac6a1396e0ad5fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _outputArea: {fileID: 7104297765958503224}
+  OutputArea: {fileID: 7104297765958503224}
   _spawnPoint: {fileID: 8094587624697563410}
   _maxText: {fileID: 6371288917233447302}
 --- !u!1 &4273351861624679692

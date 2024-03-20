@@ -8,7 +8,7 @@ namespace Machines
 {
     public class AssetTransformer : MonoBehaviour
     {
-        [SerializeField] private StackArea _inputArea;
+        public StackArea InputArea;
         [SerializeField] private StackArea _outputArea;
         [SerializeField] private Transform _spawnPoint;
         [SerializeField] private GameObject _maxText;
@@ -24,31 +24,31 @@ namespace Machines
 
         private void OnEnable()
         {
-            _inputArea.onTriggerEnter += InputTriggerEnter;
-            _inputArea.onTriggerExit += InputTriggerExit;
+            InputArea.onTriggerEnter += InputTriggerEnter;
+            InputArea.onTriggerExit += InputTriggerExit;
             _outputArea.onTriggerEnter += OutputTriggerEnter;
             _outputArea.onTriggerExit += OutputTriggerExit;
         }
 
         private void OnDisable()
         {
-            _inputArea.onTriggerEnter -= InputTriggerEnter;
-            _inputArea.onTriggerExit -= InputTriggerExit;
+            InputArea.onTriggerEnter -= InputTriggerEnter;
+            InputArea.onTriggerExit -= InputTriggerExit;
             _outputArea.onTriggerEnter -= OutputTriggerEnter;
             _outputArea.onTriggerExit -= OutputTriggerExit;
         }
 
         private void InputTriggerEnter(Collider other)
         {
-            if (other.TryGetComponent(out Player player))
+            if (other.TryGetComponent(out CharacterStack characterStack))
             {
-                _assetTaking = StartCoroutine(TakeAssets(player));
+                _assetTaking = StartCoroutine(TakeAssets(characterStack));
             }
         }
 
         private void InputTriggerExit(Collider other)
         {
-            if (other.TryGetComponent(out Player _))
+            if (other.TryGetComponent(out CharacterStack _))
             {
                 if (_assetTaking != null)
                     StopCoroutine(_assetTaking);
@@ -57,39 +57,39 @@ namespace Machines
 
         private void OutputTriggerEnter(Collider other)
         {
-            if (other.TryGetComponent(out Player player))
+            if (other.TryGetComponent(out CharacterStack characterStack))
             {
-                _assetGiving = StartCoroutine(GiveAssets(player));
+                _assetGiving = StartCoroutine(GiveAssets(characterStack));
             }
         }
 
         private void OutputTriggerExit(Collider other)
         {
-            if (other.TryGetComponent(out Player _))
+            if (other.TryGetComponent(out CharacterStack _))
             {
                 if (_assetGiving != null)
                     StopCoroutine(_assetGiving);
             }
         }
 
-        private IEnumerator TakeAssets(Player player)
+        public IEnumerator TakeAssets(CharacterStack characterStack)
         {
-            if (player.IsStackEmpty()) yield break;
-            if (!player.IsStackTypeEquals(_inputArea.AssetData)) yield break;
+            if (characterStack.IsEmpty()) yield break;
+            if (!characterStack.IsStackTypeEquals(InputArea.AssetData)) yield break;
             
-            var playerStackedAssets = player.StackedAssets;
+            var playerStackedAssets = characterStack.Assets;
 
             while (true)
             {
-                yield return new WaitUntil(() => !player.IsStackEmpty() && !_inputArea.IsFull());
+                yield return new WaitUntil(() => !characterStack.IsEmpty() && !InputArea.IsFull());
 
                 var asset = playerStackedAssets[^1];
                 var assetTransform = asset.transform;
-                assetTransform.SetParent(_inputArea.StackTransform);
-                assetTransform.DOLocalMove(_inputArea.GetFormatedAssetPosition(), 0.3f);
+                assetTransform.SetParent(InputArea.StackTransform);
+                assetTransform.DOLocalMove(InputArea.GetFormatedAssetPosition(), 0.3f);
                 assetTransform.localRotation = Quaternion.identity;
-                player.GiveAsset(asset);
-                _inputArea.Assets.Add(asset);
+                characterStack.GiveAsset(asset);
+                InputArea.Assets.Add(asset);
 
                 yield return new WaitForSeconds(_takeDelayTime);
 
@@ -100,23 +100,23 @@ namespace Machines
             }
         }
 
-        private IEnumerator GiveAssets(Player player)
+        private IEnumerator GiveAssets(CharacterStack characterStack)
         {
             while (_outputArea.IsEmpty())
             {
                 yield return null;
             }
 
-            if (!player.IsStackTypeEquals(_outputArea.AssetData))
+            if (!characterStack.IsStackTypeEquals(_outputArea.AssetData))
             {
                 yield break;
             }
 
             while (true)
             {
-                yield return new WaitWhile(() => player.IsStackFull() || _outputArea.IsEmpty());
+                yield return new WaitWhile(() => characterStack.IsFull() || _outputArea.IsEmpty());
 
-                _outputArea.GiveAssets(player);
+                _outputArea.GiveAssets(characterStack);
 
                 yield return new WaitForSeconds(_takeDelayTime);
             }
@@ -133,14 +133,14 @@ namespace Machines
                     continue;
                 }
 
-                yield return new WaitWhile(() => _inputArea.IsEmpty() || _outputArea.IsFull());
+                yield return new WaitWhile(() => InputArea.IsEmpty() || _outputArea.IsFull());
 
-                var spawnedAsset = _inputArea.Assets[^1];
+                var spawnedAsset = InputArea.Assets[^1];
                 var spawnedAssetTransform = spawnedAsset.transform;
                 float randomJumpPower = Random.Range(1.2f, 1.3f);
                 spawnedAssetTransform.DOJump(_spawnPoint.position, randomJumpPower, 1, 0.4f)
                     .OnComplete(() => PoolManager.Instance.ReturnPooledObject(spawnedAsset, spawnedAsset.Data.name));
-                _inputArea.Assets.Remove(spawnedAsset);
+                InputArea.Assets.Remove(spawnedAsset);
                 //_maxText.SetActive(_outputArea.IsFull());
 
                 yield return new WaitForSeconds(0.5f);

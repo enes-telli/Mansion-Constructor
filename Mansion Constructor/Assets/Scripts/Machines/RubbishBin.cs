@@ -28,27 +28,27 @@ namespace Machines
 
         private void InputTriggerEnter(Collider other)
         {
-            if (other.TryGetComponent(out Player player))
+            if (other.TryGetComponent(out CharacterStack characterStack))
             {
-                _assetTaking = StartCoroutine(TakeAssets(player));
+                _assetTaking = StartCoroutine(TakeAssets(characterStack));
             }
         }
 
         private void InputTriggerExit(Collider other)
         {
-            if (other.TryGetComponent(out Player _))
+            if (other.TryGetComponent(out CharacterStack _))
             {
                 StopCoroutine(_assetTaking);
             }
         }
 
-        private IEnumerator TakeAssets(Player player)
+        private IEnumerator TakeAssets(CharacterStack characterStack)
         {
-            var playerStackedAssets = player.StackedAssets;
+            var playerStackedAssets = characterStack.Assets;
 
             while (true)
             {
-                yield return new WaitUntil(() => !player.IsStackEmpty()/* && !_inputArea.IsFull()*/);
+                yield return new WaitUntil(() => !characterStack.IsEmpty()/* && !_inputArea.IsFull()*/);
 
                 var asset = playerStackedAssets[^1];
                 var assetTransform = asset.transform;
@@ -56,7 +56,7 @@ namespace Machines
                 float randomJumpPower = Random.Range(1.2f, 1.3f);
                 assetTransform.DOLocalJump(_inputArea.GetFormatedAssetPosition(), randomJumpPower, 1, 0.4f)
                     .OnComplete(() => PoolManager.Instance.ReturnPooledObject(asset, asset.Data.name));
-                player.GiveAsset(asset);
+                characterStack.GiveAsset(asset);
                 yield return new WaitForSeconds(_takeDelayTime);
             }
         }
