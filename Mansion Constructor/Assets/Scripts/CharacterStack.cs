@@ -7,6 +7,7 @@ public class CharacterStack : MonoBehaviour
     public Transform _stackTransform;
     [SerializeField] private int _capacity;
     [SerializeField] private AssetType _assetType;
+    [SerializeField] private float _stackGap = 0.3f;
 
     [HideInInspector] public List<AssetBase> Assets;
 
@@ -25,7 +26,7 @@ public class CharacterStack : MonoBehaviour
 
     public Vector3 GetFormatedAssetPosition()
     {
-        return Assets.Count * 0.25f * Vector3.up;
+        return Assets.Count * _stackGap * Vector3.up;
     }
 
     public void TakeAsset(AssetBase asset)

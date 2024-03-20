@@ -1,0 +1,22 @@
+fileFormatVersion: 2
+guid: 4de73bed58923d14c949c096e216804e
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontNames:
+  - Bosk Test
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 66aa00694e44f714cb1ab38c27b65db0, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

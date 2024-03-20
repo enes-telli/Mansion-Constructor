@@ -52,7 +52,7 @@ public class StackArea : TriggerArea
         assetTransform.position = fromPosition;
         assetTransform.SetParent(StackTransform);
         assetTransform.DOLocalJump(GetFormatedAssetPosition(), _jumpPower, _numJumps, _duration);
-        assetTransform.localEulerAngles = asset.Data.Rotation;
+        assetTransform.DOLocalRotate(asset.Data.Rotation, _duration);
         Assets.Add(asset);
         _maxText.SetActive(IsFull());
         asset.gameObject.SetActive(true);
@@ -69,7 +69,7 @@ public class StackArea : TriggerArea
             if (returnToPool)
                 PoolManager.Instance.ReturnPooledObject(asset, asset.Data.name);
         });
-        assetTransform.localEulerAngles = asset.Data.Rotation;
+        assetTransform.DOLocalRotate(asset.Data.Rotation, _duration);
         Assets.Remove(asset);
         _maxText.SetActive(IsFull());
 

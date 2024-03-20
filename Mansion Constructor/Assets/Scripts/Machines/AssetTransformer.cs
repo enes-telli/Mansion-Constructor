@@ -10,9 +10,8 @@ namespace Machines
         public StackArea InputArea;
         [SerializeField] private StackArea _outputArea;
         [SerializeField] private Transform _spawnPoint;
-
-        private readonly float _produceDelayTime = 0.2f;
-        private readonly float _takeDelayTime = 0.05f;
+        [SerializeField] private float _produceDelayTime = 0.2f;
+        [SerializeField] private float _takeDelayTime = 0.05f;
 
         private bool _productionStarted = false;
 

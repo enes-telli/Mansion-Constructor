@@ -49,7 +49,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   OutputArea: {fileID: 7104297765958503224}
   _spawnPoint: {fileID: 8094587624697563410}
-  _maxText: {fileID: 6371288917233447302}
+  _produceDelayTime: 0.2
+  _takeDelayTime: 0.05
 --- !u!1 &4273351861624679692
 GameObject:
   m_ObjectHideFlags: 0
@@ -841,14 +842,18 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 873f0e68abc4e5a419fd6457c06a9b17,
         type: 2}
+    - target: {fileID: 6168138654860191713, guid: 71be74b266bfce44b82d53fc46a74ec5,
+        type: 3}
+      propertyPath: _rowSpacing
+      value: 0.14
+      objectReference: {fileID: 0}
+    - target: {fileID: 6168138654860191713, guid: 71be74b266bfce44b82d53fc46a74ec5,
+        type: 3}
+      propertyPath: _columnSpacing
+      value: 0.28
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 71be74b266bfce44b82d53fc46a74ec5, type: 3}
---- !u!1 &6371288917233447302 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8026951391905307999, guid: 71be74b266bfce44b82d53fc46a74ec5,
-    type: 3}
-  m_PrefabInstance: {fileID: 3967152579900796121}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &7104297765958503224 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6168138654860191713, guid: 71be74b266bfce44b82d53fc46a74ec5,
