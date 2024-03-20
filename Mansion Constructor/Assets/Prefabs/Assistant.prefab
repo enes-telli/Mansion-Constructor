@@ -793,9 +793,10 @@ GameObject:
   m_Component:
   - component: {fileID: 5061971519619790023}
   - component: {fileID: 1215849387988168381}
+  - component: {fileID: 66381694}
   - component: {fileID: 66381691}
-  - component: {fileID: 66381692}
   - component: {fileID: 66381693}
+  - component: {fileID: 66381692}
   m_Layer: 0
   m_Name: Assistant
   m_TagString: Untagged
@@ -841,6 +842,20 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!136 &66381694
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5581205597084495485}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.5
+  m_Height: 2
+  m_Direction: 1
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!195 &66381691
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -863,22 +878,6 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &66381692
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5581205597084495485}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 287f7fbe0a91ddd458510802ae24e1de, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _stackTransform: {fileID: 365935045}
-  _capacity: 10
-  _assetType: 0
-  Assets: []
 --- !u!114 &66381693
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -896,6 +895,22 @@ MonoBehaviour:
   _stack: {fileID: 66381692}
   _spawner: {fileID: 0}
   _assetTransformer: {fileID: 0}
+--- !u!114 &66381692
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5581205597084495485}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 287f7fbe0a91ddd458510802ae24e1de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _stackTransform: {fileID: 365935045}
+  _capacity: 10
+  _assetType: 0
+  Assets: []
 --- !u!1 &5673527861584284039
 GameObject:
   m_ObjectHideFlags: 0

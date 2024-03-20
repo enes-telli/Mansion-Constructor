@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 
-namespace AssistantSystem
+namespace AISystem
 {
     public class Assistant : MonoBehaviour
     {
