@@ -31,7 +31,9 @@ public class Player : MonoBehaviour
     {
         var worldDirection = new Vector3(inputDirection.x, 0, inputDirection.y);
         var motionVector = _speed * Time.deltaTime * worldDirection;
-        _characterAnimator.SetFloat("Speed", motionVector.magnitude);
+        _characterAnimator.SetFloat("Walking", motionVector.magnitude);
+        float runSpeed = inputDirection.magnitude * 0.5f + 0.5f;
+        _characterAnimator.SetFloat("Speed", runSpeed);
         transform.LookAt(transform.position + worldDirection);
 
         _characterController.Move(motionVector);

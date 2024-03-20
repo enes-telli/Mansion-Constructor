@@ -162,6 +162,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _capacity: 60
+  _maxText: {fileID: 8026951391905307999}
   AssetData: {fileID: 0}
   StackTransform: {fileID: 5305696325518220104}
   _row: 6
@@ -169,6 +170,9 @@ MonoBehaviour:
   _column: 2
   _columnSpacing: 0.3
   _heightGap: 0.135
+  _jumpPower: 1.2
+  _numJumps: 1
+  _duration: 0.4
   Assets: []
 --- !u!1 &8026951391905307999
 GameObject:

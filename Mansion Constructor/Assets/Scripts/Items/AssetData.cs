@@ -16,5 +16,6 @@ namespace Items
     {
         public string Name;
         public AssetType Type;
+        public Vector3 Rotation;
     }
 }

@@ -1,11 +1,14 @@
+using DG.Tweening;
 using Helpers;
 using Items;
+using PoolSystem;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class StackArea : TriggerArea
 {
     [SerializeField] private int _capacity;
+    [SerializeField] private GameObject _maxText;
     public AssetData AssetData;
     public Transform StackTransform;
 
@@ -17,6 +20,11 @@ public class StackArea : TriggerArea
     [SerializeField] private float _columnSpacing;
     [Space]
     [SerializeField] private float _heightGap;
+
+    [Header("Jump Tween")]
+    [SerializeField] private float _jumpPower;
+    [SerializeField] private int _numJumps;
+    [SerializeField] private float _duration;
 
     [HideInInspector] public List<AssetBase> Assets = new List<AssetBase>();
 
@@ -37,20 +45,34 @@ public class StackArea : TriggerArea
         return new Vector3(offsetX, offsetY, offsetZ);
     }
 
-    public void TakeAssets(CharacterStack characterStack)
+    public void TakeAsset(AssetBase asset, Vector3 fromPosition)
     {
-
+        var assetTransform = asset.transform;
+        assetTransform.DOKill();
+        assetTransform.position = fromPosition;
+        assetTransform.SetParent(StackTransform);
+        assetTransform.DOLocalJump(GetFormatedAssetPosition(), _jumpPower, _numJumps, _duration);
+        assetTransform.localEulerAngles = asset.Data.Rotation;
+        Assets.Add(asset);
+        _maxText.SetActive(IsFull());
+        asset.gameObject.SetActive(true);
     }
 
-    public void GiveAssets(CharacterStack characterStack)
+    public AssetBase GiveAsset(Transform toTransform, Vector3 toPosition, bool returnToPool = false)
     {
-        AssetBase spawnedAsset = Assets[^1];
-        Assets.Remove(spawnedAsset);
-        characterStack.TakeAsset(spawnedAsset);
-    }
+        var asset = Assets[^1];
+        var assetTransform = asset.transform;
+        assetTransform.DOKill();
+        assetTransform.SetParent(toTransform);
+        assetTransform.DOLocalJump(toPosition, _jumpPower, _numJumps, _duration).OnComplete(() =>
+        {
+            if (returnToPool)
+                PoolManager.Instance.ReturnPooledObject(asset, asset.Data.name);
+        });
+        assetTransform.localEulerAngles = asset.Data.Rotation;
+        Assets.Remove(asset);
+        _maxText.SetActive(IsFull());
 
-    public void ProduceAssets()
-    {
-
+        return asset;
     }
 }

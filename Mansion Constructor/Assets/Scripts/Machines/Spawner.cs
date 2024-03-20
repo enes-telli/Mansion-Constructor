@@ -1,4 +1,3 @@
-using DG.Tweening;
 using Items;
 using PoolSystem;
 using System.Collections;
@@ -10,7 +9,6 @@ namespace Machines
     {
         public StackArea OutputArea;
         [SerializeField] private Transform _spawnPoint;
-        [SerializeField] private GameObject _maxText;
 
         private readonly float _produceDelayTime = 0.2f;
         private readonly float _takeDelayTime = 0.05f;
@@ -37,18 +35,21 @@ namespace Machines
 
         private void OutputTriggerEnter(Collider other)
         {
-            if (other.TryGetComponent(out CharacterStack characterStack))
+            if (other.TryGetComponent(out Player player))
             {
-                _assetGiving = StartCoroutine(GiveAssets(characterStack));
+                _assetGiving = StartCoroutine(GiveAssets(player.Stack));
             }
         }
 
         private void OutputTriggerExit(Collider other)
         {
-            if (other.TryGetComponent(out CharacterStack _))
+            if (other.TryGetComponent(out Player _))
             {
                 if (_assetGiving != null)
+                {
                     StopCoroutine(_assetGiving);
+                    _assetGiving = null;
+                }
             }
         }
 
@@ -63,7 +64,8 @@ namespace Machines
             {
                 yield return new WaitUntil(() => !characterStack.IsFull() && !OutputArea.IsEmpty());
 
-                OutputArea.GiveAssets(characterStack);
+                var asset = OutputArea.GiveAsset(characterStack._stackTransform, characterStack.GetFormatedAssetPosition());
+                characterStack.TakeAsset(asset);
 
                 yield return new WaitForSeconds(_takeDelayTime);
             }
@@ -79,17 +81,9 @@ namespace Machines
                     continue;
                 }
 
-                var spawnedAsset = PoolManager.Instance.GetPooledObject<AssetBase>(OutputArea.AssetData.name);
-                var spawnedAssetTransform = spawnedAsset.transform;
-                spawnedAssetTransform.position = _spawnPoint.position;
-                spawnedAssetTransform.SetParent(OutputArea.StackTransform);
-                float randomJumpPower = Random.Range(1.2f, 1.3f);
-                spawnedAssetTransform.DOLocalJump(OutputArea.GetFormatedAssetPosition(), randomJumpPower, 1, 0.4f);
-                spawnedAssetTransform.DOScale(spawnedAssetTransform.localScale, 0.3f).From(Vector3.zero);
-                spawnedAssetTransform.localRotation = Quaternion.identity;
-                OutputArea.Assets.Add(spawnedAsset);
-                _maxText.SetActive(OutputArea.IsFull());
-                spawnedAsset.gameObject.SetActive(true);
+                var asset = PoolManager.Instance.GetPooledObject<AssetBase>(OutputArea.AssetData.name);
+                OutputArea.TakeAsset(asset, _spawnPoint.position);
+
                 yield return new WaitForSeconds(_produceDelayTime);
             }
         }

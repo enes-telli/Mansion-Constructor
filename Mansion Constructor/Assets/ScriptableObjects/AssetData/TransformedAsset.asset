@@ -14,3 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: TransformedAsset
   Type: 2
+  Rotation: {x: -90, y: 0, z: -90}

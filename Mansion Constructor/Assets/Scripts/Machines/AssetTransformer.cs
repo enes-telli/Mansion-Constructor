@@ -1,4 +1,3 @@
-using DG.Tweening;
 using Items;
 using PoolSystem;
 using System.Collections;
@@ -11,7 +10,6 @@ namespace Machines
         public StackArea InputArea;
         [SerializeField] private StackArea _outputArea;
         [SerializeField] private Transform _spawnPoint;
-        [SerializeField] private GameObject _maxText;
 
         private readonly float _produceDelayTime = 0.2f;
         private readonly float _takeDelayTime = 0.05f;
@@ -40,15 +38,15 @@ namespace Machines
 
         private void InputTriggerEnter(Collider other)
         {
-            if (other.TryGetComponent(out CharacterStack characterStack))
+            if (other.TryGetComponent(out Player player))
             {
-                _assetTaking = StartCoroutine(TakeAssets(characterStack));
+                _assetTaking = StartCoroutine(TakeAssets(player.Stack));
             }
         }
 
         private void InputTriggerExit(Collider other)
         {
-            if (other.TryGetComponent(out CharacterStack _))
+            if (other.TryGetComponent(out Player _))
             {
                 if (_assetTaking != null)
                     StopCoroutine(_assetTaking);
@@ -57,15 +55,15 @@ namespace Machines
 
         private void OutputTriggerEnter(Collider other)
         {
-            if (other.TryGetComponent(out CharacterStack characterStack))
+            if (other.TryGetComponent(out Player player))
             {
-                _assetGiving = StartCoroutine(GiveAssets(characterStack));
+                _assetGiving = StartCoroutine(GiveAssets(player.Stack));
             }
         }
 
         private void OutputTriggerExit(Collider other)
         {
-            if (other.TryGetComponent(out CharacterStack _))
+            if (other.TryGetComponent(out Player _))
             {
                 if (_assetGiving != null)
                     StopCoroutine(_assetGiving);
@@ -84,12 +82,8 @@ namespace Machines
                 yield return new WaitUntil(() => !characterStack.IsEmpty() && !InputArea.IsFull());
 
                 var asset = playerStackedAssets[^1];
-                var assetTransform = asset.transform;
-                assetTransform.SetParent(InputArea.StackTransform);
-                assetTransform.DOLocalMove(InputArea.GetFormatedAssetPosition(), 0.3f);
-                assetTransform.localRotation = Quaternion.identity;
                 characterStack.GiveAsset(asset);
-                InputArea.Assets.Add(asset);
+                InputArea.TakeAsset(asset, asset.transform.position);
 
                 yield return new WaitForSeconds(_takeDelayTime);
 
@@ -116,7 +110,8 @@ namespace Machines
             {
                 yield return new WaitWhile(() => characterStack.IsFull() || _outputArea.IsEmpty());
 
-                _outputArea.GiveAssets(characterStack);
+                var asset = _outputArea.GiveAsset(characterStack._stackTransform, characterStack.GetFormatedAssetPosition());
+                characterStack.TakeAsset(asset);
 
                 yield return new WaitForSeconds(_takeDelayTime);
             }
@@ -135,26 +130,12 @@ namespace Machines
 
                 yield return new WaitWhile(() => InputArea.IsEmpty() || _outputArea.IsFull());
 
-                var spawnedAsset = InputArea.Assets[^1];
-                var spawnedAssetTransform = spawnedAsset.transform;
-                float randomJumpPower = Random.Range(1.2f, 1.3f);
-                spawnedAssetTransform.DOJump(_spawnPoint.position, randomJumpPower, 1, 0.4f)
-                    .OnComplete(() => PoolManager.Instance.ReturnPooledObject(spawnedAsset, spawnedAsset.Data.name));
-                InputArea.Assets.Remove(spawnedAsset);
-                //_maxText.SetActive(_outputArea.IsFull());
+                var spawnedAsset = InputArea.GiveAsset(_spawnPoint, Vector3.zero, true);
 
                 yield return new WaitForSeconds(0.5f);
 
-                var transformedAsset = PoolManager.Instance.GetPooledObject<AssetBase>(_outputArea.AssetData.name);
-                var transformedAssetTransform = transformedAsset.transform;
-                transformedAssetTransform.position = _spawnPoint.position;
-                transformedAssetTransform.SetParent(_outputArea.StackTransform);
-                transformedAssetTransform.DOLocalJump(_outputArea.GetFormatedAssetPosition(), randomJumpPower, 1, 0.4f);
-                transformedAssetTransform.DOScale(transformedAssetTransform.localScale, 0.3f).From(Vector3.zero);
-                transformedAssetTransform.eulerAngles = new Vector3(-90f, 0f, 0f);
-                _outputArea.Assets.Add(transformedAsset);
-                _maxText.SetActive(_outputArea.IsFull());
-                transformedAsset.gameObject.SetActive(true);
+                var asset = PoolManager.Instance.GetPooledObject<AssetBase>(_outputArea.AssetData.name);
+                _outputArea.TakeAsset(asset, _spawnPoint.position);
 
                 yield return new WaitForSeconds(_produceDelayTime);
             }
